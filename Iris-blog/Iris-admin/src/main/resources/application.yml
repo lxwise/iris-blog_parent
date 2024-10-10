@@ -1,0 +1,168 @@
+server:
+  port: 8100
+  servlet:
+# 应用的访问路径
+    context-path: /iris
+# 数据库配置
+spring:
+  datasource:
+    #MySQL配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/iris_blog?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&tinyInt1isBit=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    initial-size: 10
+    max-active: 150
+    min-idle: 10
+    max-wait: 15000
+    pool-prepared-statements: false
+    validation-query: SELECT 1
+    validation-query-timeout: 1500
+    test-on-borrow: false
+    test-on-return: false
+    test-while-idle: true
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 30000
+    filters: stat,wall
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 30000
+    password:
+    lettuce:
+      #在关闭客户端连接之前等待任务处理完成的最长时间，在这之后，无论任务是否执行完成，都会被执行器关闭，默认100ms
+      shutdownTimeout: 100
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        maxActive: 150
+        # 连接池中的最大空闲连接
+        maxIdle: 100
+        # 连接池中的最小空闲连接
+        minIdle: 10
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        maxWait: -1
+#由于Spring Boot 2.6.x 请求路径与 Spring MVC 处理映射匹配的默认策略从AntPathMatcher更改为PathPatternParser。
+# 所以需要设置spring.mvc.pathmatch.matching-strategy为ant-path-matcher来改变它。
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+#最大文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  devtools:
+    restart:
+      enabled: false
+#mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.iris.blog.dao
+  global-config:
+    # 数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      db-type: mysql
+    #刷新mapper 调试神器
+    refresh: true
+  # 原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#knife4j配置
+knife4j:
+  # 开启增强配置
+  enable: false
+  basic:
+    enable: false
+    # Basic认证
+    username:
+    password:
+
+#Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 3600
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒 7天
+  activity-timeout: 7200
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: false
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # （默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: random-128
+  # 是否输出操作日志
+  is-log: false
+#==============================线程池配置==============================
+thread:
+  pool:
+    core_pool_size: 3
+    max_pool_size: 10
+    queue_capacity: 100
+    keep_alive_time: 60
+
+#################### 验证码相关配置 ####################
+aj:
+  captcha:
+    jigsaw: classpath:captcha/jigsaw # 滑动验证，底图路径，不配置将使用默认图片；以 classpath: 开头，取 resource 目录下路径
+    pic-click: classpath:captcha/pic-click # 滑动验证，底图路径，不配置将使用默认图片；以 classpath: 开头，取 resource 目录下路径
+    cache-type: redis # 缓存 local/redis...
+    cache-number: 1000 # local 缓存的阈值,达到这个值，清除缓存
+    timing-clear: 180 # local定时清除过期缓存(单位秒),设置为0代表不执行
+    type: blockPuzzle # 验证码类型 default两种都实例化。 blockPuzzle 滑块拼图 clickWord 文字点选
+    water-mark: 鸢尾博客 # 右下角水印文字(我的水印)，
+    interference-options: 0 # 滑动干扰项(0/1/2)
+    req-frequency-limit-enable: true # 接口请求次数一分钟限制是否开启 true|false
+    req-get-lock-limit: 10 # 验证失败 5 次，get接口锁定
+    req-get-lock-seconds: 10 # 验证失败后，锁定时间间隔
+    req-get-minute-limit: 30 # get 接口一分钟内请求数限制
+    req-check-minute-limit: 60 # check 接口一分钟内请求数限制
+    req-verify-minute-limit: 60 # verify 接口一分钟内请求数限制
+
+#======================腾讯地图=============================
+tencent_map_key: OPASD-CAASA-CASDA-FAQAS-KBB2Z-ASDCA
+
+
+# 监控接口暴露（线上禁止对外暴露）
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+      base-path: /system
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+#============================第三方登录配置信息===================================
+#把第三方登录的appid和appsecret替换为自己的
+qq:
+  app-id: APP-ID
+  app-secret: APP-SECRET
+  redirect-url: https://www.lstar.icu/iris/oauth/callback/qq
+weibo:
+  app-id: APP-ID
+  app-secret: APP-SECRET
+  redirect-url: https://www.lstar.icu/iris/oauth/callback/weibo
+
+gitee:
+  app-id: APP-ID
+  app-secret: APP-SECRET
+  redirect-url: https://www.lstar.icu/iris/oauth/callback/gitee
+
+github:
+  app-id: APP-ID
+  app-secret: APP-SECRET
+  redirect-url: https://www.lstar.icu/iris/oauth/callback/github

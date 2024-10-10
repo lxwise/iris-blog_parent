@@ -1,0 +1,33 @@
+package ${package}.domain.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
+import java.time.LocalDateTime;
+
+/**
+ * @author ${author}
+ * @date: ${datetime}
+ * @description: ${comments}
+ */
+@Data
+@ApiModel(value="${comments}")
+public class ${className}DTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+
+	@ApiModelProperty(value = "$column.comments")
+	private $column.attrType $column.attrname;
+#end
+	@ApiModelProperty(value = "开始时间")
+	private LocalDateTime createTimeStart;
+
+	@ApiModelProperty(value = "结束时间")
+	private LocalDateTime createTimeEnd;
+}

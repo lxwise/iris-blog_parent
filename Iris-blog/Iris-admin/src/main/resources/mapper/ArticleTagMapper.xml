@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.ArticleTagMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.ArticleTagEntity" id="articleTagMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sort" column="sort"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="selectArticleTagList" resultType="com.iris.blog.domain.vo.ArticleTagVO">
+        SELECT at.id,
+               at.name,
+               at.sort,
+               at.create_time,
+               at.update_time,
+               COUNT(ta.id) AS articleCount
+        FROM t_article_tag at
+                 LEFT JOIN
+             t_article ta ON FIND_IN_SET(at.id, ta.tags) > 0
+        <where>
+            <if test="action.name != null and action.name != ''">
+                at.name LIKE CONCAT('%', #{action.name}, '%')
+            </if>
+        </where>
+        GROUP BY at.id, at.name, at.sort, at.create_time, at.update_time
+        ORDER BY articleCount DESC, at.sort DESC
+    </select>
+
+    <select id="validateTagHasExistArticle" resultType="int">
+        select count(1) from t_article where FIND_IN_SET(#{id}, tags)
+    </select>
+
+    <select id="articleTagList" resultType="com.iris.blog.domain.vo.app.AppArticleTagVO">
+
+        SELECT
+        at.id,
+        at.name AS tagName,
+        COUNT(ta.id) AS articleCount
+        FROM t_article_tag at
+        LEFT JOIN
+        t_article ta ON FIND_IN_SET(at.id, ta.tags) > 0
+        GROUP BY at.id, tagName
+        ORDER BY articleCount DESC
+    </select>
+</mapper>

@@ -1,0 +1,84 @@
+@import "./Iris-theme.scss";
+@import "./transition.scss";
+@import "./markdown.scss";
+@import "./common.scss";
+
+*,
+:after,
+:before {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+@font-face {
+	font-family: 'font';
+	src: url('../../assets/fonts/2.woff2');
+}
+
+body {
+	cursor: url("../../assets/cursor/rainbow_rain/normal.cur"), default;
+	background: var(--theme-bg);
+	color: var(--text-color);
+	font-family: "font", sans-serif;
+	font-size: 1.05em;
+	overflow-x: hidden;
+	line-height: 2;
+}
+
+a,
+button,
+img {
+	cursor: url("../../assets/cursor/rainbow_rain/link.cur"), default !important;
+}
+
+blockquote, code, h1, h2, h3, h4, h5, h6, hr, input, li, p, td, textarea, th, text {
+	cursor: url('../../assets/cursor/rainbow_rain/texto.cur'), auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "font", sans-serif;
+	font-weight: 600;
+	line-height: 1.5;
+	margin: 1.25rem 0 0.9375rem;
+}
+
+button,
+input,
+select,
+textarea {
+	background-color: transparent;
+	border-style: none;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	border: none;
+	color: currentColor;
+	outline: 0;
+	text-decoration: none;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	transition: all 0.2s ease-in-out 0s;
+	cursor: pointer;
+}
+
+.clearfix:after {
+	visibility: hidden;
+	clear: both;
+	display: block;
+	content: ".";
+	height: 0;
+}
+
+.clearfix {
+	zoom: 1;
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.NoticeMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.NoticeEntity" id="noticeMap">
+        <result property="id" column="id"/>
+        <result property="toUserId" column="to_user_id"/>
+        <result property="toUserAvatar" column="to_user_avatar"/>
+        <result property="fromUserId" column="from_user_id"/>
+        <result property="content" column="content"/>
+        <result property="ip" column="ip"/>
+        <result property="ipAddress" column="ip_address"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="region" column="region"/>
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+        <result property="status" column="status"/>
+        <result property="noticeType" column="notice_type"/>
+        <result property="typeId" column="type_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="readAllNotice" resultType="com.iris.blog.domain.vo.app.AppNoticeCountVO">
+        SELECT
+            IFNULL( SUM( CASE WHEN notice_type = 1 THEN 1 ELSE 0 END ), 0 ) AS systemNoticeCount,
+            IFNULL( SUM( CASE WHEN notice_type = 2 THEN 1 ELSE 0 END ), 0 ) AS commentNoticeCount,
+            IFNULL( SUM( CASE WHEN notice_type = 3 THEN 1 ELSE 0 END ), 0 ) AS likeNoticeCount
+        FROM
+            t_notice
+        WHERE
+            from_user_id = #{userId}
+          AND status = 0
+    </select>
+</mapper>

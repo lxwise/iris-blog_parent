@@ -1,0 +1,47 @@
+package ${package}.dao.entity;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
+import java.time.LocalDateTime;
+
+/**
+ * @author ${author}
+ * @date: ${datetime}
+ * @description: ${comments}
+ */
+@Data
+@TableName("${tableName}")
+@ApiModel(value="${comments}")
+public class ${className}Entity implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+	/**
+	 * $column.comments
+	 */
+	#if($column.columnName == $pk.columnName)
+@TableId(value = "$column.columnName")
+#else
+
+	#if($column.columnName == "create_time")
+@TableField(value = "create_time", fill = FieldFill.INSERT)
+#elseif($column.columnName == "update_time")
+@TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+#else
+@TableField(value = "$column.columnName")
+#end
+#end
+	@ApiModelProperty(value = "${column.comments}")
+	private $column.attrType $column.attrname;
+#end
+}

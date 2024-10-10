@@ -1,0 +1,18 @@
+body {
+    cursor: url('assets/cursor/rainbow_rain/normal.cur'), auto;
+}
+.actions > div, .expand-done, .main-content figure > figcaption div, .navbar-above .navbar-nav .item, .navbar-searchicon, .navbar-slideicon, .photos .picture-details, .widget .ad-tag .click-close, a, button {
+    cursor: url('assets/cursor/rainbow_rain/normal.cur'), auto;
+}
+
+.aplayer .aplayer-bar-wrap, .aplayer .aplayer-icon, .aplayer .aplayer-music, .aplayer .aplayer-pic {
+    cursor: url('assets/cursor/rainbow_rain/normal.cur'), auto;
+}
+
+.main-content :not(.jg-entry) > img:not([class]) {
+    cursor: url('assets/cursor/rainbow_rain/precision.cur'), auto;
+}
+
+blockquote, code, h1, h2, h3, h4, h5, h6, hr, input[type=text], li, p, td, textarea, th {
+    cursor: url('assets/cursor/rainbow_rain/texto.cur'), auto;
+}

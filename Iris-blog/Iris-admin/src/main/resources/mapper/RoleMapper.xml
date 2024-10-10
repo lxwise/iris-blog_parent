@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.RoleMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.RoleEntity" id="roleMap">
+        <result property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="remarks" column="remarks"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="getRoleListByUserId" resultType="java.lang.String">
+        select r.code from t_role r,t_user_role ur where r.id=ur.role_id and ur.user_id=#{loginId}
+    </select>
+
+    <insert id="saveBatchByRole">
+        insert into t_role_menu(role_id,menu_id) values
+        <foreach collection="list" item="item" separator=",">
+            (#{roleId},#{item})
+        </foreach>
+    </insert>
+</mapper>

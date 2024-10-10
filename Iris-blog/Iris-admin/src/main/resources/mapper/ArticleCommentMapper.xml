@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.ArticleCommentMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.CommentEntity" id="articleCommentMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="commentType" column="comment_type"/>
+        <result property="typeId" column="type_id"/>
+        <result property="content" column="content"/>
+        <result property="replyUserId" column="reply_user_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="replyId" column="reply_id"/>
+        <result property="ipAddress" column="ip_address"/>
+        <result property="ip" column="ip"/>
+        <result property="os" column="os"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="selectCommentList" resultType="com.iris.blog.domain.vo.CommentVO">
+        select c.id,
+               c.user_id,
+               tui.nickname as nickname,
+               tui.avatar   as avatar,
+               c.type_id,
+               c.comment_type,
+               c.content,
+               c.reply_user_id,
+               ui.nickname  as replyNickname,
+               c.ip_address,
+               c.ip,
+               c.os,
+               c.status,
+               c.create_time,
+               c.update_time
+        from t_comment c
+                 left join t_user_info tui on tui.id = c.user_id
+                 left join t_user_info ui on ui.id = c.reply_user_id
+        <where>
+            <if test="action.commentType != null">
+                    c.comment_type = #{action.commentType}
+            </if>
+            <if test="action.status != null">
+                and c.status = #{action.status}
+            </if>
+            <if test="action.name != null and action.name != ''">
+                and tui.nickname like concat('%', #{action.name}, '%')
+                   or ui.nickname like concat('%', #{action.name}, '%')
+            </if>
+            <if test="action.createTimeStart != null">
+                and c.create_time >= #{action.createTimeStart}
+            </if>
+            <if test="action.createTimeEnd != null">
+                and #{action.createTimeEnd} >= c.create_time
+            </if>
+        </where>
+        order by c.id desc
+    </select>
+
+    <select id="latestRecentCommentList" resultType="com.iris.blog.domain.vo.app.AppRecentCommentLatestVO">
+        select c.id          as id,
+               tui.nickname  as nickname,
+               tui.avatar    as avatar,
+               c.content     as commentContent,
+               c.create_time as createTime
+        from t_comment c
+                 left join t_user_info tui on tui.id = c.user_id
+        where c.status = 1
+        order by c.id desc
+        LIMIT 15
+    </select>
+
+    <select id="selectCommentIdByParentId" resultType="java.lang.Long">
+        SELECT id
+        FROM t_comment
+        WHERE parent_id = #{parentId}
+    </select>
+
+    <select id="selectParentComment" resultType="com.iris.blog.domain.vo.app.AppCommentVO">
+        SELECT
+               c.id,
+               c.user_id AS fromUid,
+               u.nickname AS fromNickname,
+               u.avatar,
+               c.content  as commentContent,
+               c.create_time
+        FROM t_comment c
+                 INNER JOIN t_user_info u ON c.user_id = u.id
+        <where>
+            c.status = 1
+            AND c.parent_id IS NULL
+            AND c.comment_type = #{action.commentType}
+            <if test="action.typeId != null">
+                AND c.type_id = #{action.typeId}
+            </if>
+        </where>
+        ORDER BY c.id DESC
+    </select>
+
+    <select id="selectReplyByParentIdListLimit3" resultType="com.iris.blog.domain.vo.app.AppReplyCommentVO">
+        SELECT
+            c.user_id,
+            u.nickname AS nickname,
+            u.avatar,
+            c.reply_user_id,
+            COALESCE(r.nickname, '') AS replyNickname,
+            c.id,
+            c.parent_id,
+            c.content AS commentContent,
+            c.create_time
+        FROM t_comment c
+                 LEFT JOIN t_user_info u ON c.user_id = u.id
+                 LEFT JOIN t_user_info r ON c.reply_user_id = r.id
+        WHERE c.status = 1
+        AND c.parent_id IN
+        <foreach collection="parentCommentIdList" open="(" close=")" item="commentId" separator=",">
+            #{commentId}
+        </foreach>
+        ORDER BY c.create_time ASC
+        limit 3;
+    </select>
+
+    <select id="selectReplyCountByParentId" resultType="com.iris.blog.domain.vo.app.AppReplyCommentCountVO">
+
+        SELECT
+        parent_id as comment_id,
+        count(1) AS reply_count
+        FROM t_comment
+        WHERE status = 1
+        AND parent_id IN
+        <foreach collection="parentCommentIdList" open="(" close=")" item="commentId" separator=",">
+            #{commentId}
+        </foreach>
+        GROUP BY parent_id
+    </select>
+
+    <select id="selectReplyByParentId" resultType="com.iris.blog.domain.vo.app.AppReplyCommentVO">
+        SELECT
+            c.user_id as fromUid,
+            u.nickname AS fromNickname,
+            u.avatar,
+            c.reply_user_id as toUid,
+            r.nickname AS toNickname,
+            c.id,
+            c.parent_id,
+            c.content  as commentContent,
+            c.create_time
+        FROM t_comment c
+        JOIN t_user_info u ON c.user_id = u.id
+        JOIN t_user_info r ON c.reply_user_id = r.id
+        WHERE c.status = 1
+        AND parent_id = #{commentId}
+        ORDER BY c.id ASC
+    </select>
+
+    <select id="selectCommentCountByTypeId" resultType="com.iris.blog.domain.vo.app.AppCommentCountVO">
+
+        SELECT
+            type_id as id,
+        COUNT(*) AS comment_count
+        FROM
+        t_comment
+        WHERE
+        comment_type=#{type}
+        AND type_id IN
+        <foreach open="(" collection="talkIdList" item="typeId" separator="," close=")">
+            #{typeId}
+        </foreach>
+        GROUP BY type_id
+    </select>
+</mapper>

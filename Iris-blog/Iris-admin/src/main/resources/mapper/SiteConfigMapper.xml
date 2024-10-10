@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.SiteConfigMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.SiteConfigEntity" id="siteConfigMap">
+        <result property="id" column="id"/>
+        <result property="userAvatar" column="user_avatar"/>
+        <result property="touristAvatar" column="tourist_avatar"/>
+        <result property="siteName" column="site_name"/>
+        <result property="siteAddress" column="site_address"/>
+        <result property="siteIntro" column="site_intro"/>
+        <result property="siteNotice" column="site_notice"/>
+        <result property="createSiteTime" column="create_site_time"/>
+        <result property="recordNumber" column="record_number"/>
+        <result property="authorAvatar" column="author_avatar"/>
+        <result property="siteAuthor" column="site_author"/>
+        <result property="articleCover" column="article_cover"/>
+        <result property="aboutMe" column="about_me"/>
+        <result property="email" column="email"/>
+        <result property="github" column="github"/>
+        <result property="gitee" column="gitee"/>
+        <result property="qqGroup" column="qq_group"/>
+        <result property="qq" column="qq"/>
+        <result property="commentCheck" column="comment_check"/>
+        <result property="messageCheck" column="message_check"/>
+        <result property="isReward" column="is_reward"/>
+        <result property="wechatCode" column="wechat_code"/>
+        <result property="alipayCode" column="alipay_code"/>
+        <result property="emailNotice" column="email_notice"/>
+        <result property="socialList" column="social_list"/>
+        <result property="loginList" column="login_list"/>
+        <result property="isMusic" column="is_music"/>
+        <result property="musicId" column="music_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+</mapper>

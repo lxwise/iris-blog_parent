@@ -1,0 +1,67 @@
+package ${package}.service;
+
+import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${package}.dao.entity.${className}Entity;
+import ${mainPath}.common.R;
+import ${mainPath}.common.PageReq;
+import com.iris.blog.domain.dto.${className}DTO;
+import javax.servlet.http.HttpServletResponse;
+/**
+ * @author ${author}
+ * @date: ${datetime}
+ * @description: ${comments}
+ */
+public interface ${className}Service extends IService<${className}Entity> {
+
+    /**
+    * 列表
+     * @param req
+     * @return
+    */
+    R select${className}List(PageReq<${className}DTO> req);
+
+    /**
+     * 信息
+     * @param ${pk.attrname}
+     * @return
+     */
+    R select${className}ById( ${pk.attrType} ${pk.attrname});
+
+    /**
+     * 保存
+     * @param dto
+     * @return
+     */
+    R save${className}(${className}DTO dto);
+
+    /**
+     * 修改
+     * @param dto
+     * @return
+     */
+    R update${className}(${className}DTO dto);
+
+    /**
+     * 删除
+     * @param ${pk.attrname}s
+     * @return
+     */
+    R remove${className}ByIds(List<${pk.attrType}> ${pk.attrname}s);
+
+
+    /**
+     * 修改状态
+     * @param id
+     * @return
+     */
+    R updateStatusById(Long id);
+
+    /**
+     * 导出
+     * @param dto
+     * @param response
+     */
+    void export(${className}DTO dto, HttpServletResponse response);
+}
+

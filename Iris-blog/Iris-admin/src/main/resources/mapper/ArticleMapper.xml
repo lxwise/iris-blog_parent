@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.ArticleMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.ArticleEntity" id="articleMap">
+        <result property="id" column="id"/>
+        <result property="authorId" column="author_id"/>
+        <result property="authorName" column="author_name"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="tags" column="tags"/>
+        <result property="title" column="title"/>
+        <result property="coverImage" column="cover_image"/>
+        <result property="intro" column="intro"/>
+        <result property="content" column="content"/>
+        <result property="readType" column="read_type"/>
+        <result property="isTop" column="is_top"/>
+        <result property="status" column="status"/>
+        <result property="isForward" column="is_forward"/>
+        <result property="forwardUrl" column="forward_url"/>
+        <result property="likes" column="likes"/>
+        <result property="collection" column="collection"/>
+        <result property="comment" column="comment"/>
+        <result property="views" column="views"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="selectArticleList" resultType="com.iris.blog.domain.vo.ArticleVO">
+        select
+            a.id,
+            a.author_id,
+            a.author_name,
+            a.category_id,
+            a.category_name,
+            a.title,
+            a.cover_image,
+            a.intro,
+            a.content,
+            a.read_type,
+            a.is_top,
+            a.status,
+            a.is_forward,
+            a.forward_url,
+            ifnull(a.likes,0) as likes,
+            ifnull(a.collection,0) as collection,
+            ifnull(a.comment,0) as comment,
+            ifnull(a.views,0) as views,
+            a.create_time,
+            a.update_time,
+            ac.name as categoryName,
+<!--            JSON_ARRAYAGG(at.name) as tagList-->
+            group_concat( at.name SEPARATOR ',' ) AS tags
+        from t_article a
+        left join t_article_category ac on a.category_id = ac.id
+        left join t_article_tag at ON FIND_IN_SET(at.id, a.tags)
+        <where>
+            <if test="action.status != null">
+                a.status = #{action.status}
+            </if>
+            <if test="action.isForward != null">
+               and a.is_forward = #{action.isForward}
+            </if>
+            <if test="action.isTop != null">
+               and a.is_top = #{action.isTop}
+            </if>
+            <if test="action.categoryId != null">
+               and a.category_id = #{action.categoryId}
+            </if>
+            <if test="action.title != null and action.title != ''">
+                and a.title like concat('%', #{action.title}, '%')
+            </if>
+            <if test="action.createTimeStart != null">
+                and a.create_time >= #{action.createTimeStart}
+            </if>
+            <if test="action.createTimeEnd != null">
+                and #{action.createTimeEnd} >= a.create_time
+            </if>
+            <if test="action.tags != null and action.tags != ''">
+               and FIND_IN_SET(#{action.tags}, a.tags)
+            </if>
+        </where>
+        GROUP BY a.id
+        ORDER BY a.id DESC
+    </select>
+
+    <select id="selectArticleStatistics" resultType="com.iris.blog.domain.vo.SystemHomeContributeStatisticsVO">
+        SELECT DATE_FORMAT(create_time, "%Y-%m-%d") AS date,
+               COUNT(*)                             AS count
+        FROM t_article
+        GROUP BY date
+        ORDER BY date DESC
+    </select>
+
+    <select id="articleHomeList" resultType="com.iris.blog.domain.vo.app.AppArticleHomeVO">
+        select
+        a.id,
+        a.category_id,
+        a.category_name,
+        a.title AS articleTitle,
+        a.cover_image AS articleCover,
+        a.content AS articleContent,
+        a.is_top,
+        a.create_time,
+        JSON_ARRAYAGG(JSON_OBJECT('id', at.id, 'tagName', at.name)) AS tagJsonString
+        from t_article a
+        left join t_article_tag at ON FIND_IN_SET(at.id, a.tags)
+        where a.status = 1
+        <if test="action.categoryId != null">
+            and a.category_id = #{action.categoryId}
+        </if>
+        <if test="action.tags != null and action.tags != ''">
+            and FIND_IN_SET(#{action.tags}, a.tags)
+        </if>
+        GROUP BY a.id
+        ORDER BY a.id DESC
+    </select>
+
+    <select id="articleArchivesList" resultType="com.iris.blog.domain.vo.app.AppArticleArchiveVO">
+        SELECT
+            id,
+            title AS articleTitle,
+            cover_image AS articleCover,
+            create_time
+        FROM
+            t_article
+        WHERE
+            `status` = 1
+        ORDER BY
+            create_time
+    </select>
+
+    <select id="articleSearchList" resultType="com.iris.blog.domain.vo.app.AppArticleSearchVO">
+        SELECT
+            id,
+            title AS articleTitle,
+            content AS articleContent
+        FROM t_article
+        <where>
+             `status` = 1
+            <if test="dto.tags != null and dto.tags != ''">
+                and FIND_IN_SET(#{dto.tags}, tags)
+            </if>
+            <if test="dto.keyword != null and dto.keyword != ''">
+                and (title like concat('%',#{dto.keyword},'%')
+                or content like concat('%',#{dto.keyword},'%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="selectArticleHomeById" resultType="com.iris.blog.domain.vo.app.AppArticleDetailVO">
+
+        select
+            a.id,
+            a.category_id,
+            a.category_name,
+            a.title as articleTitle,
+            a.cover_image as articleCover,
+            a.content as articleContent,
+            a.is_forward as articleType,
+            a.read_type as readType,
+            a.likes as likeCount,
+            a.views as viewCount,
+            a.create_time,
+            a.update_time,
+            JSON_ARRAYAGG(JSON_OBJECT('id', at.id, 'tagName', at.name)) AS tagJsonString
+        from t_article a
+                 left join t_article_tag at ON FIND_IN_SET(at.id, a.tags)
+        where
+            a.status = 1
+            AND a.id = #{articleId}
+        GROUP BY a.id
+        ORDER BY a.id DESC
+    </select>
+
+    <select id="selectLastArticle" resultType="com.iris.blog.domain.vo.app.AppArticlePaginationVO">
+        SELECT
+            id,
+            title as articleTitle,
+            cover_image as articleCover
+        FROM t_article
+        WHERE
+            `status` = 1
+            AND id &lt; #{articleId}
+        ORDER BY id DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectNextArticle" resultType="com.iris.blog.domain.vo.app.AppArticlePaginationVO">
+        SELECT
+        id,
+        title as articleTitle,
+        cover_image as articleCover
+        FROM t_article
+        WHERE
+        `status` = 1
+        AND id &gt; #{articleId}
+        ORDER BY id ASC
+        LIMIT 1
+    </select>
+
+    <update id="updateArticleStats">
+        <foreach collection="list" item="item" separator=";">
+            update t_article
+            <set>
+                <if test="item.views != null and item.views > 0">
+                    views = views + #{item.views},
+                </if>
+                <if test="item.likes != null and item.likes > 0">
+                    likes = likes + #{item.likes}
+                </if>
+            </set>
+            where id = #{item.id}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.ArticleCategoryMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.ArticleCategoryEntity" id="articleCategoryMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sort" column="sort"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="icon" column="icon"/>
+    </resultMap>
+
+    <select id="selectArticleCategoryList" resultType="com.iris.blog.domain.vo.ArticleCategoryVO">
+        select
+            ac.id,
+            ac.name,
+            ac.sort,
+            ac.create_time,
+            ac.update_time,
+            ac.icon,
+            IFNULL((select count(1) from t_article a where a.category_id = ac.id),0) as articleCount
+        from t_article_category ac
+        <where>
+            <if test="action.name != null and action.name != ''">
+                ac.name like concat('%', #{action.name}, '%')
+            </if>
+        </where>
+        order by articleCount desc, ac.sort desc
+    </select>
+
+    <select id="validateCategoryHasExistArticle" resultType="_int">
+        select count(1) from t_article a where a.category_id = #{id}
+    </select>
+
+    <select id="articleCategoryCount" resultType="com.iris.blog.domain.vo.ArticleCategoryVO">
+        SELECT
+            ac.id as id,
+            ac.name as name,
+            count( a.id ) as articleCount
+        FROM
+            t_article_category ac
+                LEFT JOIN t_article a ON ac.id = a.category_id
+        GROUP BY
+            ac.id
+    </select>
+
+    <select id="articleCategoryList" resultType="com.iris.blog.domain.vo.app.AppArticleHomeVO">
+
+        select
+            a.id,
+            a.category_id,
+            a.category_name,
+            a.title,
+            a.cover_image,
+            a.create_time,
+            JSON_ARRAYAGG(JSON_OBJECT('id', at.id, 'name', at.name)) AS tagVOList
+        from t_article a
+                 left join t_article_tag at ON FIND_IN_SET(at.id, a.tags)
+        where a.status = 1
+        <if test="action.categoryId != null">
+            and a.category_id = #{action.categoryId}
+        </if>
+        GROUP BY a.id
+        ORDER BY a.id DESC
+    </select>
+</mapper>

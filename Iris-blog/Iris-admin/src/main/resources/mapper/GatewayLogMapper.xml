@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.GatewayLogMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.GatewayLogEntity" id="gatewayLogMap">
+        <result property="id" column="id"/>
+        <result property="ip" column="ip"/>
+        <result property="requestEndTime" column="request_end_time"/>
+        <result property="statusCode" column="status_code"/>
+        <result property="requestMethod" column="request_method"/>
+        <result property="serverProtocol" column="server_protocol"/>
+        <result property="serverPort" column="server_port"/>
+        <result property="uri" column="uri"/>
+        <result property="args" column="args"/>
+        <result property="bytesSent" column="bytes_sent"/>
+        <result property="requestTime" column="request_time"/>
+        <result property="httpUserAgent" column="http_user_agent"/>
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="getUserViewCount" resultType="com.iris.blog.domain.vo.SystemHomeVisitStatisticsVO">
+        SELECT
+            count( DISTINCT ip ) AS uv,
+            count( request_end_time ) AS pv,
+            DATE_FORMAT( request_end_time, '%Y-%m-%d' ) AS `date`
+        FROM
+            t_gateway_log
+        WHERE
+            request_end_time >=#{sevenDaysAgo}
+
+          AND #{today} >= request_end_time
+        GROUP BY DATE_FORMAT(request_end_time, '%Y-%m-%d')
+    </select>
+    <select id="selectGatewayIPList" resultType="com.iris.blog.domain.vo.GeoVO">
+        select
+            longitude,
+            latitude
+        FROM
+            t_gateway_log
+        WHERE
+            request_end_time >=#{sevenDaysAgo}
+          AND #{today} >= request_end_time
+        and latitude is not null  and longitude is not null
+        GROUP BY
+            latitude,
+            longitude
+    </select>
+</mapper>

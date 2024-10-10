@@ -1,0 +1,36 @@
+
+
+body {
+    cursor: url('assets/cursor/rainbow_rain/normal.cur'), auto;
+}
+.actions > div,.el-button,.v-icon,.el-select__wrapper,.expand-done, .main-content figure > figcaption div, .navbar-above .navbar-nav .item, .navbar-searchicon, .navbar-slideicon, .photos .picture-details, .widget .ad-tag .click-close, a, button {
+    cursor: url('assets/cursor/rainbow_rain/link.cur'), auto;
+}
+
+.aplayer .aplayer-bar-wrap, .aplayer .aplayer-icon, .aplayer .aplayer-music, .aplayer .aplayer-pic {
+    cursor: url('assets/cursor/rainbow_rain/link.cur'), auto;
+}
+
+.main-content :not(.jg-entry) > img:not([class]) {
+    cursor: url('assets/cursor/rainbow_rain/precision.cur'), auto;
+}
+
+blockquote, code, h1, h2, h3, h4, h5, h6, hr, input, li, p, td, textarea, th,text {
+    cursor: url('assets/cursor/rainbow_rain/texto.cur'), auto;
+}
+
+* {
+    font-size: 15px;
+    font-family: "font";
+}
+.my-svg-size .v-icon  svg{
+    height: 2.5em;
+    width: 2.5em;
+}
+
+@font-face {
+    font-family: 'font';
+    src: url('./assets/font/2.woff2');
+}
+
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iris.blog.dao.mapper.OperateLogMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.iris.blog.dao.entity.OperateLogEntity" id="operateLogMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="requestUrl" column="request_url"/>
+        <result property="requestType" column="request_type"/>
+        <result property="requestMethod" column="request_method"/>
+        <result property="requestClassName" column="request_class_name"/>
+        <result property="requestParams" column="request_params"/>
+        <result property="requestTime" column="request_time"/>
+        <result property="requestIp" column="request_ip"/>
+        <result property="requestAddress" column="request_address"/>
+        <result property="operateDesc" column="operate_desc"/>
+        <result property="operateOs" column="operate_os"/>
+        <result property="errorInfo" column="error_info"/>
+        <result property="errorMessage" column="error_message"/>
+        <result property="logType" column="log_type"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+</mapper>

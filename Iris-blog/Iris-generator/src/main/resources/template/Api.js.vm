@@ -1,0 +1,52 @@
+import request from '@/config/axios'
+#set ($baseURL = "/${pathName}")
+
+export interface ${className}VO {
+    #foreach ($column in $columns)
+#if($column.attrType == "Long" || $column.attrType == "Integer"|| $column.attrType == "short"|| $column.attrType == "double"|| $column.attrType == "BigDecimal")
+    $column.attrname: number;
+#elseif($column.attrType == "Date" || $column.attrType == "LocalDate" || $column.attrType == "LocalDateTime")
+    $column.attrname: Date;
+#else
+    $column.attrname: $column.attrType.toLowerCase();
+#end
+    #end
+
+}
+
+
+// ${comments}列表
+export const get${className}Page = async (data: PageParam) => {
+    return await request.post({url: '$baseURL/list', data})
+}
+
+// ${comments}详情
+export const get${className} = async (id: number) => {
+    return await request.get({url: '$baseURL/info', params: {id}})
+}
+
+// 新增${comments}
+export const create${className}= async (data: ${className}VO) => {
+    return await request.post({url: '$baseURL/save', data})
+}
+
+// 修改${comments}
+export const update${className} = async (data: ${className}VO) => {
+    return await request.post({url: '$baseURL/update', data})
+}
+
+// 删除${comments}
+export const delete${className} = async (id: number) => {
+    const data:number[] = [id]
+    return await request.post({ url: '$baseURL/delete', data })
+}
+
+// ${comments}状态修改
+export const update${className}Status = async (id: number) => {
+    return await request.get({url: '$baseURL/update/status', params: {id: id}})
+}
+
+// 导出${comments}
+export const export${className}Excel = async (data: any) => {
+    return await request.download({url: '${baseURL}/export', data})
+}
