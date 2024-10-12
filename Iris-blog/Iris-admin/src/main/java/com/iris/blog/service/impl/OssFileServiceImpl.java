@@ -3,6 +3,7 @@ package com.iris.blog.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.iris.blog.common.constant.SystemParamCodeConstant;
 import com.iris.blog.common.enums.BaseNumberEnum;
@@ -89,6 +90,14 @@ public class OssFileServiceImpl extends ServiceImpl<OssFileMapper, OssFileEntity
             String fileName = FileUtil.getName(file.getOriginalFilename());
             String url = Objects.requireNonNull(OssFactory.build()).uploadSuffix(file.getInputStream(), fileType,"image",fileName);
             String filePath = Objects.requireNonNull(OssFactory.build()).getFilePath(fileType, "image", fileName);
+
+            LambdaQueryWrapper<OssFileEntity> queryWrapper = Wrappers.lambdaQuery();
+            queryWrapper.eq(OssFileEntity::getUrl, url)
+                    .eq(OssFileEntity::getFilePath, filePath)
+                    .eq(OssFileEntity::getType, fileType);
+            if(this.count(queryWrapper) > 0){
+                return new UploadDTO(url, file.getSize());
+            }
             //保存文件信息
             OssFileEntity entity = new OssFileEntity();
             entity.setName(fileName);
