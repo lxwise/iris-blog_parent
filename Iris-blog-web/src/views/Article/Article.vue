@@ -315,8 +315,8 @@ const checkLikeAndComment = (desc: string) => {
 }
 
 .reward-img {
-	width: 130px;
-	height: 130px;
+	width: 330px;
+	height: 330px;
 	display: block;
 }
 
@@ -398,8 +398,8 @@ const checkLikeAndComment = (desc: string) => {
 	}
 
 	.reward-img {
-		width: 105px;
-		height: 105px;
+		width: 305px;
+		height: 305px;
 	}
 
 }

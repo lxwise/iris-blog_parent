@@ -14,12 +14,12 @@
             <el-col :md="6">
               <el-form-item label="用户头像">
                 <el-upload
-                    :show-file-list="false"
-                    :action="uploadUrl"
-                    :http-request="httpRequest"
-                    accept="image/*"
-                    :before-upload="beforeUpload"
-                    :on-success="handleSuccess"
+                  :show-file-list="false"
+                  :action="uploadUrl"
+                  :http-request="httpRequest"
+                  accept="image/*"
+                  :before-upload="beforeUpload"
+                  :on-success="(response) => handleSuccess(1, response)"
                 >
                   <img v-if="siteConfig.userAvatar && siteConfig.userAvatar !== ''" :src="siteConfig.userAvatar" style="width: 150px; height: 150px; object-fit: contain;"/>
                   <el-icon v-else class="el-icon--upload" style="width: 80px; height: 80px;">
@@ -31,12 +31,12 @@
             <el-col :md="6">
               <el-form-item label="游客头像">
                 <el-upload
-                    :show-file-list="false"
-                    :action="uploadUrl"
-                    :http-request="httpRequest"
-                    accept="image/*"
-                    :before-upload="beforeUpload"
-                    :on-success="handleSuccess"
+                  :show-file-list="false"
+                  :action="uploadUrl"
+                  :http-request="httpRequest"
+                  accept="image/*"
+                  :before-upload="beforeUpload"
+                  :on-success="(response) => handleSuccess(2, response)"
                 >
                   <img v-if="siteConfig.touristAvatar && siteConfig.touristAvatar !== ''" :src="siteConfig.touristAvatar" style="width: 150px; height: 150px; object-fit: contain;"/>
                   <el-icon v-else class="el-icon--upload" style="width: 80px; height: 80px;">
@@ -85,13 +85,13 @@
         <el-form label-width="80px" :model="siteConfig" label-position="left">
           <el-form-item label="作者头像">
             <el-upload
-                drag
-                :show-file-list="false"
-                :action="uploadUrl"
-                :http-request="httpRequest"
-                accept="image/*"
-                :before-upload="beforeUpload"
-                :on-success="handleSuccess"
+              drag
+              :show-file-list="false"
+              :action="uploadUrl"
+              :http-request="httpRequest"
+              accept="image/*"
+              :before-upload="beforeUpload"
+              :on-success="(response) => handleSuccess(3, response)"
             >
 
               <img v-if="siteConfig.authorAvatar && siteConfig.authorAvatar !== ''" :src="siteConfig.authorAvatar" style="width: 150px; height: 150px; object-fit: contain;"/>
@@ -105,13 +105,13 @@
           </el-form-item>
           <el-form-item label="关于我">
             <md-editor
-                style="height: calc(100vh - 200px); min-height: 300px"
-                ref="editorRef"
-                v-model="siteConfig.aboutMe"
-                :theme="isDark ? 'dark' : 'light'"
-                :toolbars="toolbars"
-                @on-upload-img="uploadImg"
-                placeholder="请输入文章内容..."
+              style="height: calc(100vh - 200px); min-height: 300px"
+              ref="editorRef"
+              v-model="siteConfig.aboutMe"
+              :theme="isDark ? 'dark' : 'light'"
+              :toolbars="toolbars"
+              @on-upload-img="uploadImg"
+              placeholder="请输入文章内容..."
             >
               <template #defToolbars>
                 <emoji-extension :on-insert="insert"/>
@@ -193,13 +193,13 @@
             <el-col :md="12">
               <el-form-item label="微信收款码">
                 <el-upload
-                    drag
-                    :show-file-list="false"
-                    :action="uploadUrl"
-                    :http-request="httpRequest"
-                    accept="image/*"
-                    :before-upload="beforeUpload"
-                    :on-success="handleSuccess"
+                  drag
+                  :show-file-list="false"
+                  :action="uploadUrl"
+                  :http-request="httpRequest"
+                  accept="image/*"
+                  :before-upload="beforeUpload"
+                  :on-success="(response) => handleSuccess(4, response)"
                 >
                   <img v-if="siteConfig.wechatCode && siteConfig.wechatCode !== ''" :src="siteConfig.wechatCode" style="width: 150px; height: 150px; object-fit: contain;"/>
                   <el-icon  v-else class="el-icon--upload" style="width: 80px; height: 80px;">
@@ -211,13 +211,13 @@
             <el-col :md="12">
               <el-form-item label="支付宝收款码">
                 <el-upload
-                    drag
-                    :show-file-list="false"
-                    :action="uploadUrl"
-                    :http-request="httpRequest"
-                    accept="image/*"
-                    :before-upload="beforeUpload"
-                    :on-success="handleSuccess"
+                  drag
+                  :show-file-list="false"
+                  :action="uploadUrl"
+                  :http-request="httpRequest"
+                  accept="image/*"
+                  :before-upload="beforeUpload"
+                  :on-success="(response) => handleSuccess(5, response)"
                 >
                   <img v-if="siteConfig.alipayCode && siteConfig.alipayCode !== ''" :src="siteConfig.alipayCode" style="width: 150px; height: 150px; object-fit: contain;"/>
                   <el-icon  v-else class="el-icon--upload" style="width: 80px; height: 80px;">
@@ -243,13 +243,13 @@
         <el-form label-width="120px" :model="siteConfig" label-position="left">
           <el-form-item label="文章默认封面">
             <el-upload
-                drag
-                :show-file-list="false"
-                :action="uploadUrl"
-                :http-request="httpRequest"
-                accept="image/*"
-                :before-upload="beforeUpload"
-                :on-success="handleSuccess"
+              drag
+              :show-file-list="false"
+              :action="uploadUrl"
+              :http-request="httpRequest"
+              accept="image/*"
+              :before-upload="beforeUpload"
+              :on-success="(response) => handleSuccess(6, response)"
             >
               <img v-if="siteConfig.articleCover && siteConfig.articleCover !== ''" :src="siteConfig.articleCover" style="width: 300px; height: 150px; object-fit: contain;"/>
               <el-icon  v-else class="el-icon--upload" style="width: 120px; height: 80px;">
@@ -445,21 +445,21 @@ const insert = (generator: InsertContentGenerator) => {
  */
 const uploadImg = async (files: Array<File>, callback: (urls: string[]) => void) => {
   const res = await Promise.all(
-      files.map((file) => {
-        return new Promise((resolve, reject) => {
-          FileApi.updateFile({file: file})
-              .then((res) => {
-                if (res.code === 200) {
-                  resolve(res)
-                } else {
-                  reject(res)
-                }
-              })
-              .catch((res) => {
-                reject(res)
-              })
-        })
+    files.map((file) => {
+      return new Promise((resolve, reject) => {
+        FileApi.updateFile({file: file})
+          .then((res) => {
+            if (res.code === 200) {
+              resolve(res)
+            } else {
+              reject(res)
+            }
+          })
+          .catch((res) => {
+            reject(res)
+          })
       })
+    })
   )
   callback(res.map((item: any) => item.data.url))
 }
