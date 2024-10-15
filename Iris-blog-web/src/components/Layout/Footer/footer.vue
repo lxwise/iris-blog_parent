@@ -41,13 +41,14 @@
 </template>
 
 <script setup>
-import {useRoute} from "vue-router";
-import {useBlogStore} from "@/store";
+import { useRoute } from "vue-router";
+import { useBlogStore } from "@/store";
 import dayjs from "dayjs";
+import { ref, watch } from "vue";
 
 const route = useRoute();
-
 const blog = useBlogStore();
+
 const runTime = ref("");
 setInterval(() => {
 	const days = dayjs().diff(blog.blogInfo.createSiteTime, "days");
@@ -59,11 +60,21 @@ setInterval(() => {
 	str += day.getSeconds() + "秒";
 	runTime.value = str;
 }, 1000);
+
 const webInfo = ref([
-	{name: "风风雨雨", count: runTime,},
-	{name: "总访问量", count: blog.blogInfo.viewCount,}
-])
+	{ name: "风风雨雨", count: runTime },
+	{ name: "总访问量", count: blog.blogInfo.viewCount },
+]);
+
+// 监听 blog.blogInfo.viewCount 的变化，并更新 webInfo
+watch(
+	() => blog.blogInfo.viewCount,
+	(newCount) => {
+		webInfo.value[1].count = newCount;
+	}
+);
 </script>
+
 
 <style lang="scss" scoped>
 .footer-color {
