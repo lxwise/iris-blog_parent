@@ -86,7 +86,7 @@ const data = reactive({
 	pages: 0,
 	queryParams: {
 		pageNo: 1,
-		pageSize: 5,
+		pageSize: 6,
 		action: {}
 	} as PageQuery,
 	articleList: [] as Article[],

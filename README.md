@@ -39,9 +39,9 @@
 
 **测试账号：** test@qq.com，**密码**：123456
 
-**Github 地址：** [https://gitee.com/lxwise/iris-blog_parent](https://gitee.com/lxwise/iris-blog_parent)
+**Gitee 地址：** [https://gitee.com/lxwise/iris-blog_parent](https://gitee.com/lxwise/iris-blog_parent)
 
-**Gitee 地址：** [https://github.com/Alfred-Ashin/iris-blog_parent](https://github.com/Alfred-Ashin/iris-blog_parent)
+**Github 地址：** [https://github.com/lxwise/iris-blog_parent](https://github.com/lxwise/iris-blog_parent)
 
 ## 3.Star
 

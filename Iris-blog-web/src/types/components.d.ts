@@ -15,6 +15,7 @@ declare module '@vue/runtime-core' {
     Drawer: typeof import('./../components/Layout/Drawer/index.vue')['default']
     Echarts: typeof import('./../components/Echarts/index.vue')['default']
     Email: typeof import('./../components/Dialog/Email.vue')['default']
+    FollowMe: typeof import('./../components/Layout/SideBar/FollowMe.vue')['default']
     Footer: typeof import('./../components/Layout/Footer/footer.vue')['default']
     Forget: typeof import('./../components/Dialog/Forget.vue')['default']
     Header: typeof import('./../components/Layout/Header/index.vue')['default']

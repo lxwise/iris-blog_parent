@@ -5,7 +5,7 @@ import {setupAssets, setupLazy, setupMasonry, setupMdPreview, setupViewer} from 
 import {setupRouter} from "./router";
 import {setupStore} from "./store";
 import {titleChange} from "./utils/title";
-// import {a} from "./utils/antiDebug"
+import {a} from "./utils/antiDebug"
 
 async function setupApp() {
 	setupAssets();
@@ -33,4 +33,4 @@ async function setupApp() {
 }
 
 setupApp();
-// a();
+a();
