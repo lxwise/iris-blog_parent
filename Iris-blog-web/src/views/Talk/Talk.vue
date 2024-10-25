@@ -50,7 +50,7 @@ const route = useRoute();
 const isLike = computed(() => (id: number) => user.talkLikeSet.indexOf(id) != -1 ? "like-flag" : "");
 const data = reactive({
 	commentCount: 0,
-	commentType: 3,
+	commentType: 2,
 	talk: {
 		id: 0,
 		nickname: "",

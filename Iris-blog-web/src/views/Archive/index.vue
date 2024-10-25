@@ -6,7 +6,7 @@
 				归档 ({{ count }})
 			</div>
 		</h1>
-		<img class="page-cover" src="http://test.yudao.iocoder.cn/goods/20240805/home.jpg"
+		<img class="page-cover" src="https://ik.imagekit.io/irisblog/home.jpg?updatedAt=1723000780641"
 				 alt="">
 		<!-- 波浪 -->
 		<Waves></Waves>

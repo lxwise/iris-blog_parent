@@ -110,7 +110,7 @@ import {useBlogStore} from "@/store";
 import {NButton, NForm, NFormItem, NInput} from 'naive-ui';
 
 const blog = useBlogStore();
-const commentType = ref(2);
+const commentType = ref(3);
 const friendList = ref<Friend[]>([]);
 onMounted(async () => {
 	friendList.value = await getFriendList();
