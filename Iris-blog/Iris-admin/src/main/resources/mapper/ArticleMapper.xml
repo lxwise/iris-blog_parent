@@ -115,7 +115,7 @@
             and FIND_IN_SET(#{action.tags}, a.tags)
         </if>
         GROUP BY a.id
-        ORDER BY a.id DESC
+        ORDER BY a.is_top DESC, a.views DESC,a.id DESC
     </select>
 
     <select id="articleArchivesList" resultType="com.iris.blog.domain.vo.app.AppArticleArchiveVO">
