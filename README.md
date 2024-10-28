@@ -158,9 +158,169 @@ Iris-blog_parent
 
 ## 10.项目截图
 
+#### 后台
+
+* **登录页**
+
+<img src="doc/blog_back_01.gif" style="zoom:80%;" />
+
+* **首页数据大屏**
+
+<img src="doc/blog_back_02.gif" style="zoom:80%;" />
+
+* **文章管理**
+
+<img src="doc/blog_back_03.png" style="zoom:80%;" />
+
+* **黑夜模式首页**
+
+<img src="doc/blog_back_24.png" style="zoom:80%;" />
+
+* **文章发布页**
+
+<img src="doc/blog_back_04.png" style="zoom:80%;" />
+
+* **分类管理**
+
+<img src="doc/blog_back_05.png" style="zoom:80%;" />
+
+* **评论管理**
+
+<img src="doc/blog_back_06.png" style="zoom:80%;" />
+
+* **留言管理**
+
+<img src="doc/blog_back_07.png" style="zoom:80%;" />
+
+* **说说管理**
+
+<img src="doc/blog_back_08.png" style="zoom:80%;" />
+
+* **网站配置**
+
+<img src="doc/blog_back_09.png" style="zoom:80%;" />
+
+* **轮播图管理**
+
+<img src="doc/blog_back_10.png" style="zoom:80%;" />
+
+* **网关日志**
+
+<img src="doc/blog_back_11.png" style="zoom:80%;" />
+
+* **用户管理**
+
+<img src="doc/blog_back_12.png" style="zoom:80%;" />
+
+* **菜单管理**
+
+<img src="doc/blog_back_13.png" style="zoom:80%;" />
+
+* **字典管理**
+
+<img src="doc/blog_back_14.png" style="zoom:80%;" />
+
+* **日志管理**
+
+<img src="doc/blog_back_15.png" style="zoom:80%;" />
+
+* **定时任务**
+
+<img src="doc/blog_back_16.png" style="zoom:80%;" />
+<img src="doc/blog_back_17.png" style="zoom:80%;" />
+
+* **存储管理**
+
+<img src="doc/blog_back_18.png" style="zoom:80%;" />
+<img src="doc/blog_back_19.png" style="zoom:80%;" />
+
+* **Redis监控**
+
+<img src="doc/blog_back_20.png" style="zoom:80%;" />
+
+* **应用监控**
+
+<img src="doc/blog_back_21.png" style="zoom:80%;" />
+
+* **Mysql监控**
+
+<img src="doc/blog_back_22.png" style="zoom:80%;" />
+
+* **系统监控**
+
+<img src="doc/blog_back_23.png" style="zoom:80%;" />
+
+
+
 #### 前台
 
-#### 后台
+* **首页**
+
+![blog_01.gif](doc/blog_01.gif)
+
+* **明亮模式**
+
+![blog_02.png](doc/blog_02.png)
+
+
+
+
+
+* **暗黑模式**
+
+![blog_14.png](doc/blog_14.png)
+
+* **文章归档**
+
+<img src="doc/blog_03.png" style="zoom:80%;" />
+
+
+
+* **分类模块**
+
+<img src="doc/blog_04.png" style="zoom:80%;" />
+
+* **标签模块**
+
+<img src="doc/blog_05.png" style="zoom:80%;" />
+
+* **说说模块**
+
+<img src="doc/blog_06.png" style="zoom:80%;" />
+
+
+
+* **友链模块**
+
+<img src="doc/blog_07.png" style="zoom:80%;" />
+
+* **留言板**
+
+<img src="doc/blog_08.png" style="zoom:80%;" />
+
+* **用户反馈**
+
+<img src="doc/blog_09.png" style="zoom:80%;" />
+
+* **消息通知**
+
+<img src="doc/blog_10.png" style="zoom:80%;" />
+
+* **文章搜索**
+
+<img src="doc/blog_11.png" style="zoom:80%;" />
+
+* **登录认证**
+
+<img src="doc/blog_12.png" style="zoom:80%;" />
+
+* **文章详情**
+
+<img src="doc/blog_13.gif" style="zoom:80%;" />
+
+
+
+
 
 ## 11.后续计划
 
