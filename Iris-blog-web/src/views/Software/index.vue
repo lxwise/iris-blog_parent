@@ -23,7 +23,7 @@
 										 loop
 										 keyboard
 					>
-						<NCarouselItem v-for="(image, index) in splitCover(article.articleCover)" :key="index">
+						<NCarouselItem v-for="(image, index) in article.imageDetails" :key="index">
 							<img class="cover" :src="image"/>
 						</NCarouselItem>
 					</NCarousel>

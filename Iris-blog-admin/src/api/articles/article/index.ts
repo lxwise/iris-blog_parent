@@ -23,6 +23,7 @@ export interface ArticleVO {
   views: number
   createTime: Date
   updateTime: Date
+  imageDetails: string[]
 }
 
 // 文章表列表

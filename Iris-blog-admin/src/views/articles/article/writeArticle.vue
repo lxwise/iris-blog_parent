@@ -148,7 +148,13 @@
         </el-radio-group>
       </el-form-item>
       <!-- 缩略图 -->
-      <el-form-item label="缩略图" prop="coverImage">
+      <el-form-item label="缩略图">
+        <el-radio-group v-model="storageType" class="mb-20px">
+          <el-radio :value="1">文件上传</el-radio>
+          <el-radio :value="2">文件地址</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item  v-if="storageType === 1" prop="coverImage">
         <el-upload
           drag
           :show-file-list="false"
@@ -166,6 +172,9 @@
           </div>
           <img v-else :src="articleForm.coverImage" width="360" />
         </el-upload>
+      </el-form-item>
+      <el-form-item v-if="storageType === 2" prop="coverImage">
+        <el-input v-model="articleForm.coverImage" placeholder="请输入缩略图地址"/>
       </el-form-item>
       <!-- 阅读方式 -->
       <el-form-item label="阅读方式" prop="readType">
@@ -186,6 +195,10 @@
         <el-radio :label="1">发布</el-radio>
         <el-radio :label="2">下架</el-radio>
       </el-radio-group>
+    </el-form-item>
+    <!-- 文章详情图片数组 -->
+    <el-form-item label="预览图" prop="imageDetails">
+      <UploadImgs v-model="articleForm.imageDetails" />
     </el-form-item>
     <template #footer>
       <div class="dialog-footer">
@@ -231,6 +244,7 @@ const formRules = reactive({
   intro: [{ required: true, message: '文章简介', trigger: 'blur' }],
   content: [{ required: true, message: '文章内容', trigger: 'blur' }]
 })
+const storageType = ref(0)
 /**
  * 插入表情
  * @param generator
@@ -275,6 +289,9 @@ const submitForm = async () => {
   // 提交请求
   formLoading.value = true
   try {
+    if (articleForm.value.imageDetails){
+      articleForm.value.imageDetails = articleForm.value.imageDetails.map((item: any) => item.url)
+    }
     const data = articleForm.value as unknown as ArticleApi.ArticleVO
     if (!id) {
       await ArticleApi.createArticle(data)
@@ -347,7 +364,8 @@ const data = reactive({
     isForward: true,
     isRecommend: false,
     forwardUrl: '',
-    tagNameList: []
+    tagNameList: [],
+    imageDetails: []
   } as ArticleApi.ArticleVO,
   categoryList: [] as ArticleCategoryApi.ArticleCategoryVO[],
   tagList: [] as ArticleTagApi.ArticleTagVO[],

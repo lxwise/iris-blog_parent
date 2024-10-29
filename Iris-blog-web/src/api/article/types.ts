@@ -43,6 +43,11 @@ export interface Article {
 	 * 发表时间
 	 */
 	createTime: string;
+
+	/**
+	 * 文章图片列表
+	 */
+	imageDetails: string[]
 }
 
 /**
