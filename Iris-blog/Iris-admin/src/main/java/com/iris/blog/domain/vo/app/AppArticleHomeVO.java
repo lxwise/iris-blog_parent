@@ -42,6 +42,10 @@ public class AppArticleHomeVO {
     @JsonIgnore
     private String tagJsonString;
 
+    @ApiModelProperty(value = "文章详情图片")
+    @JsonIgnore
+    private String imageDetailsStr;
+
     @ApiModelProperty(value = "文章标签列表")
     private List<AppTagOptionVO> tagVOList;
 
@@ -51,6 +55,8 @@ public class AppArticleHomeVO {
     @ApiModelProperty(value = "发表时间")
     private LocalDateTime createTime;
 
+    @ApiModelProperty(value = "文章详情图片,最多九个")
+    private List<String> imageDetails;
     public void setTagJsonString(String tagJsonString) {
         this.tagJsonString = tagJsonString;
         // 解析 JSON 字符串到 tagVOList

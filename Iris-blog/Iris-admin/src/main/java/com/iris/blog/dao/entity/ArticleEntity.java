@@ -178,4 +178,8 @@ public class ArticleEntity implements Serializable {
 	@TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
 	@ApiModelProperty(value = "修改时间")
 	private LocalDateTime updateTime;
+
+	@ApiModelProperty(value = "文章详情图片,最多九个")
+	@TableField(value = "image_details")
+	private String imageDetails;
 }

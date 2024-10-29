@@ -39,11 +39,11 @@ public class AppCommentDTO {
     private Integer typeId;
 
     /**
-     * 评论类型 (1文章 2友链 3说说)
+     * 评论类型 (评论类型:1文章,2说说,3友链)
      */
     @EnumValid(values = {1, 2, 3}, message = "评论类型只能为1、2、3")
     @NotNull(message = "评论类型不能为空")
-    @ApiModelProperty(value = "评论类型 (1文章 2友链 3说说)", required = true)
+    @ApiModelProperty(value = "评论类型:1文章,2说说,3友链", required = true)
     private Integer commentType;
 
     /**

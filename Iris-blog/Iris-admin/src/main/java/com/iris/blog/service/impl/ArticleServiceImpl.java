@@ -66,15 +66,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
         Page<ArticleVO> page = new Page<>(req.getPageNo(), req.getPageSize());
         page = this.baseMapper.selectArticleList(page,req.getAction());
         if(CollectionUtils.isNotEmpty(page.getRecords())){
-         page.getRecords().stream().map(item->{
-             if(StringUtils.isNotBlank(item.getTags())){
-              item.setTagNameList(LambdaUtil.StringTolistComma(item.getTags()));
-              return item;
-             }else {
-                 item.setTagNameList(Collections.EMPTY_LIST);
-             }
-             return item;
-         }).collect(Collectors.toList());
+            page.getRecords().stream().map(item->{
+                if(StringUtils.isNotBlank(item.getTags())){
+                    item.setTagNameList(LambdaUtil.StringTolistComma(item.getTags()));
+                    return item;
+                }else {
+                    item.setTagNameList(Collections.EMPTY_LIST);
+                }
+                return item;
+            }).collect(Collectors.toList());
         }
         PageBean<ArticleVO> pageBean = PageUtil.pageBean(page, ArticleVO.class);
         return R.ok(pageBean);
@@ -89,6 +89,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
         ArticleVO vo = BeanUtil.newBean(entity, ArticleVO.class);
         if(StringUtils.isNotBlank(entity.getTags())){
             vo.setTagNameList(articleTagService.getTagsByIds(LambdaUtil.StringTolistComma(entity.getTags())));
+            vo.setImageDetails(StringUtils.isBlank(entity.getImageDetails()) ? null : LambdaUtil.StringTolistComma(entity.getImageDetails()));
         }
         return R.ok(vo);
     }
@@ -98,6 +99,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     public R saveArticle(ArticleDTO dto){
         SessionUserVO user = (SessionUserVO) StpUtil.getSession().get(CommonConstant.LOGIN_USER);
         ArticleEntity entity = BeanUtil.newBean(dto, ArticleEntity.class);
+        if(CollectionUtils.isNotEmpty(dto.getImageDetails())){
+            entity.setImageDetails(LambdaUtil.listToStringComma(dto.getImageDetails(), String::valueOf));
+        }
         //添加分类
         Long categoryId = articleCategoryService.savaCategoryByName(dto.getCategoryName());
         //添加标签
@@ -120,6 +124,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
             throw new BusinessException(ResultCode.NO_PERMISSION);
         }
         ArticleEntity entity = BeanUtil.newBean(dto, ArticleEntity.class);
+        if(CollectionUtils.isNotEmpty(dto.getImageDetails())){
+            entity.setImageDetails(LambdaUtil.listToStringComma(dto.getImageDetails(), String::valueOf));
+        }
         //添加分类
         Long categoryId = articleCategoryService.savaCategoryByName(dto.getCategoryName());
         //添加标签
@@ -190,15 +197,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     public R<PageBean<AppArticleHomeVO>> articleHomeList(PageReq<AppSearchAppArticleDTO>  req) {
         Page<AppArticleHomeVO> page = new Page<>(req.getPageNo(), req.getPageSize());
         page = this.baseMapper.articleHomeList(page, req.getAction());
-//        page.setRecords(page.getRecords().stream()
-//                .peek(item -> {
-//                    if (StringUtils.isNotBlank(item.getTags())) {
-//                        item.setTagVOList(LambdaUtil.StringTolistComma(item.getTags()));
-//                    } else {
-//                        item.setTagVOList(Collections.emptyList());
-//                    }
-//                })
-//                .collect(Collectors.toList()));
+        if(CollectionUtils.isNotEmpty(page.getRecords())){
+            page.getRecords().stream().map(item->{
+                if(StringUtils.isNotBlank(item.getImageDetailsStr())){
+                    item.setImageDetails(LambdaUtil.StringTolistComma(item.getImageDetailsStr()));
+                    return item;
+                }else {
+                    item.setImageDetails(Collections.EMPTY_LIST);
+                }
+                return item;
+            }).collect(Collectors.toList());
+        }
         PageBean<AppArticleHomeVO> pageBean = PageUtil.pageBean(page, AppArticleHomeVO.class);
         return R.ok(pageBean);
     }
@@ -216,7 +225,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
 
         List<AppArticleSearchVO> list = this.baseMapper.articleSearchList(dto);
 
-         list = list.stream()
+        list = list.stream()
                 .map(article -> {
                     // 获取关键词第一次出现的位置
                     String articleContent = article.getArticleContent();
@@ -243,7 +252,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
                 })
                 .collect(Collectors.toList());
 
-         return R.ok(list);
+        return R.ok(list);
     }
 
     @Override

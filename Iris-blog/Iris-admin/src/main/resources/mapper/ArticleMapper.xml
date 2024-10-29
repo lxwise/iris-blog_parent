@@ -104,6 +104,7 @@
         a.content AS articleContent,
         a.is_top,
         a.create_time,
+        a.image_details as imageDetailsStr,
         JSON_ARRAYAGG(JSON_OBJECT('id', at.id, 'tagName', at.name)) AS tagJsonString
         from t_article a
         left join t_article_tag at ON FIND_IN_SET(at.id, a.tags)

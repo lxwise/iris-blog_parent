@@ -17,14 +17,15 @@ public enum CommentTypeEnum {
      */
     ARTICLE(1, "文章", "article/"),
     /**
-     * 友链评论
-     */
-    LINK(2, "友链", "friend"),
-    /**
      * 说说评论
      */
-    TALK(3, "说说", "talk/");
+    TALK(2, "说说", "talk/"),
 
+    /**
+     * 友链评论
+     */
+    LINK(3, "友链", "friend"),
+    ;
     /**
      * 状态
      */

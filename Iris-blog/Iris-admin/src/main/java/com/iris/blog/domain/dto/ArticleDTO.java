@@ -75,4 +75,7 @@ public class ArticleDTO implements Serializable {
 	@ApiModelProperty(value = "修改时间")
 	private LocalDateTime updateTime;
 
+	@ApiModelProperty(value = "文章详情图片,最多九个")
+	private List<String> imageDetails;
+
 }
