@@ -31,6 +31,12 @@ A front-end and back-end separated blog developed using Springboot, Vue3, and Ty
 </p>
 
 
+
+
+[**中文文档**](https://gitee.com/lxwise/iris-blog_parent)
+
+[**英文文档**](https://gitee.com/lxwise/iris-blog_parent/blob/master/README.en.md)
+
 ## 2.Online Address
 
 **Blog Links：** [www.lstar.icu](https://www.lstar.icu)
@@ -104,7 +110,7 @@ Iris-blog_parent
 
 - Adopts Restful style API, complete comments, and the code follows Alibaba development specifications, which is conducive to developer learning.
 
-      
+  ​    
 
 ## 6.Technical Introduction
 

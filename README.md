@@ -31,6 +31,10 @@
 </p>
 
 
+[**中文文档**](https://gitee.com/lxwise/iris-blog_parent)
+
+[**英文文档**](https://gitee.com/lxwise/iris-blog_parent/blob/master/README.en.md)
+
 ## 2.在线地址
 
 **博客链接：** [www.lstar.icu](https://www.lstar.icu)
