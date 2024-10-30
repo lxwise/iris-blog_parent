@@ -84,7 +84,7 @@ Iris-blog_parent
 
 - 博客界面布局样式主要参考 Hexo 的 [ShokaX](https://github.com/theme-shoka-x/hexo-theme-shokaX)和 [Butterfly](https://github.com/jerryc127/hexo-theme-butterfly) 设计，页面美观，支持移动端自适应。
 
-- 博客后台管理基于**[yudao-ui-admin-vue3](https://gitee.com/yudaocode/yudao-ui-admin-vue3)**主体框架进行重构，含有动态路由权限、侧边栏、国际化、主题切换等。
+- 博客后台管理基于[yudao-ui-admin-vue3](https://gitee.com/yudaocode/yudao-ui-admin-vue3)主体框架进行重构，含有动态路由权限、侧边栏、国际化、主题切换等。
 
 - 采用 RABC 权限模型，使用 [Sa-Token](https://gitee.com/dromara/sa-token) 进行权限管理，支持动态权限修改、动态菜单和路由。
 
