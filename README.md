@@ -144,7 +144,7 @@ Iris-blog_parent
 |  MySQL   | 8.0.11  |
 |  Redis   |  6.2.6  |
 |  Nginx   | 1.22.1  |
-|   Node   | 18.0.02 |
+|   Node   | 18.20.2 |
 |   Npm    | 10.5.0  |
 |   Pnpm   |  9.0.6  |
 
