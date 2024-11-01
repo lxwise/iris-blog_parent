@@ -21,7 +21,7 @@ public class AppArticleHomeVO {
 
 
     @ApiModelProperty(value = "文章id")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty(value = "文章缩略图")
     private String articleCover;

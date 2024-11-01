@@ -1,13 +1,15 @@
 <template>
-	<swiper v-if="articleList.length > 0" :autoplay="{ delay: 5000, disableOnInteraction: false, }" :loop="true"
+	<swiper v-if="articleList.length > 0" :autoplay="{ delay: 2500, disableOnInteraction: false, }" :loop="true"
 					:modules="modules" :pagination="{ clickable: true }"
 					:slides-per-view="1" class="swiper-container" mousewheel
 					navigation>
 		<swiper-slide v-for="article in articleList" :key="article.id">
-			<div :style="articleCover(article.articleCover)" class="slide-content">
-				<router-link :to="`/article/${article.id}`" class="slide-title">{{ article.articleTitle }}</router-link>
-				<span class="slide-time">发布时间：{{ formatDate(article.createTime) }}</span>
-			</div>
+			<router-link :to="`/article/${article.id}`">
+				<div :style="articleCover(article.articleCover)" class="slide-content">
+					<div class="slide-title">{{ article.articleTitle }}</div>
+					<span class="slide-time">发布时间：{{ formatDate(article.createTime) }}</span>
+				</div>
+			</router-link>
 		</swiper-slide>
 	</swiper>
 </template>
