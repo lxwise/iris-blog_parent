@@ -411,7 +411,7 @@ const data = reactive({
 })
 
 const { dialogVisible, articleForm, categoryList, tagList, categoryName, tagName } = toRefs(data)
-
+const fileInput = ref<HTMLInputElement | null>(null);
 /**************分类相关方法******************************/
 /**
  * 选择分类
