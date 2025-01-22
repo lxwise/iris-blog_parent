@@ -119,16 +119,7 @@
         发布文章
       </el-button>
     </router-link>
-    <el-button
-      class="ml-5px"
-      type="warning"
-      @click="handleExport"
-      :loading="exportLoading"
-      v-hasPermi="['system:article:export']"
-    >
-      <Icon icon="ep:download" class="mr-5px" />
-      导出
-    </el-button>
+
   </div>
   <!-- 列表 -->
   <ContentWrap>
@@ -216,7 +207,7 @@
         :formatter="dateFormatter"
         width="180px"
       />
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" align="center" width="200">
         <template #default="scope">
           <router-link :to="'/articles/article/writeArticle?id=' + scope.row.id">
             <el-button link type="primary" class="mr-5px" v-hasPermi="['system:article:update']">
@@ -241,6 +232,16 @@
           >
             <Icon icon="ep:delete" />
             删除
+          </el-button>
+          <el-button
+            link
+            type="success"
+            @click="handleExport(scope.row.title,scope.row.id)"
+            :loading="exportLoading"
+            v-hasPermi="['system:article:export']"
+          >
+            <Icon icon="ep:download" class="mr-5px" />
+            导出
           </el-button>
         </template>
       </el-table-column>
@@ -354,14 +355,14 @@ const handleTop = async (id: number, isTop: boolean) => {
 }
 
 /** 导出按钮操作 */
-const handleExport = async () => {
+const handleExport = async (title:string,id:number) => {
   try {
     // 导出的二次确认
     await message.exportConfirm()
     // 发起导出
     exportLoading.value = true
-    const data = await ArticleApi.exportArticleExcel(queryParams)
-    download.excel(data, '文章表.xls')
+    const data = await ArticleApi.exportArticleExcel(id)
+    download.excel(data, title+'.md')
   } catch {
   } finally {
     exportLoading.value = false

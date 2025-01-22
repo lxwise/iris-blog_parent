@@ -62,7 +62,8 @@ export const topArticle = async (id: number) => {
 }
 
 // 导出文章表
-export const exportArticleExcel = async (data: any) => {
+export const exportArticleExcel = async (id: number) => {
+  const data: number[] = [id]
   return await request.download({ url: '/system/article/export', data })
 }
 
@@ -73,4 +74,8 @@ export const getSelectArticleCategoryList = async () => {
 //文章标签下拉
 export const getSelectArticleTagList = async () => {
   return await request.get({ url: '/system/article/tag/select' })
+}
+// 导入文章
+export const importArticle = (data: any) => {
+  return request.upload({ url: '/system/article/import', data })
 }

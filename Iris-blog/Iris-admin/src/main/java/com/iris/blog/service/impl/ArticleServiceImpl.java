@@ -21,8 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iris.blog.common.R;
@@ -37,10 +43,10 @@ import com.iris.blog.domain.dto.ArticleDTO;
 import com.iris.blog.domain.vo.ArticleVO;
 import com.iris.blog.service.ArticleService;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.Objects;
-import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
 /**
@@ -59,6 +65,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
 
     @Resource
     private RedisUtil redisUtil;
+
+    private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+    private static final String ALLOWED_EXTENSION = ".md";
 
     @Override
     public R selectArticleList(PageReq<SearchArticleDTO> req){
@@ -282,6 +291,54 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, ArticleEntity
     @Override
     public void updateArticleStats(List<ArticleEntity> list) {
         this.baseMapper.updateArticleStats(list);
+    }
+
+    @Override
+    public R importArticle(MultipartFile file) {
+
+        // 校验文件大小
+        if (file.getSize() > MAX_FILE_SIZE) {
+            return R.error("文件大小不能超过 10 MB");
+        }
+        // 校验文件类型
+        String filename = file.getOriginalFilename();
+        if (filename == null || !filename.endsWith(ALLOWED_EXTENSION)) {
+            return R.error("文件类型必须为 Markdown (.md)");
+        }
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+            // 高效读取文件内容
+            StringBuilder contentBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                contentBuilder.append(line).append("\n");
+            }
+            return R.ok(contentBuilder.toString());
+        } catch (IOException e) {
+            return R.error("文件读取失败");
+        }
+    }
+
+    @Override
+    public void exportArticle(List<Long> ids, HttpServletResponse response) {
+        try {
+            ArticleEntity articleEntity = checkExist(ids.get(0));
+            String articleContent = articleEntity.getContent();
+            String fileName = URLEncoder.encode(articleEntity.getTitle() + ".md", StandardCharsets.UTF_8.toString());
+            // 设置响应头，通知浏览器文件下载
+            response.setContentType("application/octet-stream");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+            // 写入文件内容
+            try (OutputStream os = response.getOutputStream()) {
+                os.write(articleContent.getBytes(StandardCharsets.UTF_8));
+                os.flush();
+            }
+        } catch (IOException e) {
+            log.error("文件导出失败", e);
+            throw new BusinessException("导出文章失败");
+        }
     }
 
 

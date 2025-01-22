@@ -735,6 +735,7 @@ INSERT INTO `t_menu` VALUES (105, '轮播新增', 'system:carousel:save', 3, 1, 
 INSERT INTO `t_menu` VALUES (106, '轮播修改', 'system:carousel:update', 3, 2, 104, '', '', '', '', 1, 1, 1, 1, '', '2024-08-05 13:14:45', '', '2024-08-05 13:14:45');
 INSERT INTO `t_menu` VALUES (107, '轮播删除', 'system:carousel:delete', 3, 3, 104, '', '', '', '', 1, 1, 1, 1, '', '2024-08-05 13:15:05', '', '2024-08-05 13:15:05');
 INSERT INTO `t_menu` VALUES (108, '轮播查询', 'system:carousel:query', 3, 4, 104, '', '', '', '', 1, 1, 1, 1, '', '2024-08-05 13:15:21', '', '2024-08-05 13:15:21');
+INSERT INTO `t_menu` VALUES (109, '文章导入', 'system:article:import', 3, 6, 73, '', '', '', '', 1, 1, 1, 1, '', '2025-01-22 14:55:52', '', '2025-01-22 14:55:52');
 
 -- ----------------------------
 -- Table structure for t_notice
@@ -1103,6 +1104,7 @@ INSERT INTO `t_role_menu` VALUES (230, 1, 105, '2024-08-05 13:15:42', '2024-08-0
 INSERT INTO `t_role_menu` VALUES (231, 1, 106, '2024-08-05 13:15:42', '2024-08-05 13:15:42');
 INSERT INTO `t_role_menu` VALUES (232, 1, 107, '2024-08-05 13:15:42', '2024-08-05 13:15:42');
 INSERT INTO `t_role_menu` VALUES (233, 1, 108, '2024-08-05 13:15:42', '2024-08-05 13:15:42');
+INSERT INTO `t_role_menu` VALUES (234, 1, 109, '2025-01-22 14:57:49', '2025-01-22 14:57:49');
 
 -- ----------------------------
 -- Table structure for t_schedule_job

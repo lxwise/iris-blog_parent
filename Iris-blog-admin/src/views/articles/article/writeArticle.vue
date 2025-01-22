@@ -7,6 +7,7 @@
       <el-input type="textarea" v-model="articleForm.intro" placeholder="请输入文章简介" />
     </el-form-item>
     <el-button type="danger" style="margin-bottom: 20px" @click="openModel">发布文章</el-button>
+    <el-button type="primary" style="margin-bottom: 20px" @click="triggerFileInput" v-hasPermi="['system:article:export']">导入文章</el-button>
     <!-- 文章内容 -->
     <md-editor
       style="height: calc(100vh - 200px); min-height: 300px"
@@ -22,6 +23,14 @@
       </template>
     </md-editor>
   </el-form>
+
+  <input
+    ref="fileInput"
+    type="file"
+    style="display: none"
+    accept=".md"
+    @change="handleFileSelect"
+  />
   <!-- 发布或修改对话框 -->
   <el-dialog title="发布文章" v-model="dialogVisible" width="600px" top="0.5vh" append-to-body>
     <el-form ref="articleFormRef" label-width="80px" :model="articleForm" :rules="rules">
@@ -325,6 +334,34 @@ const openModel = async () => {
   tagList.value = await ArticleApi.getSelectArticleTagList()
   dialogVisible.value = true
 }
+
+/****************导入文章*************************/
+const triggerFileInput  = async () => {
+  fileInput.value?.click();
+}
+
+// 文件选择逻辑
+const handleFileSelect = async (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (!file) return;
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const content = await ArticleApi.importArticle(formData);
+    console.log("文章导入成功:", content.data.data);
+    articleForm.value.content = content.data.data; // 将内容赋值到表单
+    message.success("文章导入成功！");
+  } catch (error) {
+    console.error("文章导入失败:", error);
+    message.error("文章导入失败！");
+  } finally {
+    target.value = ""; // 重置文件选择器
+  }
+};
+
 
 const rules = reactive({
   title: [{ required: true, message: '标题', trigger: 'blur' }],

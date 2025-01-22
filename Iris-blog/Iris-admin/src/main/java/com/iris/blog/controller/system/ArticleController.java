@@ -1,25 +1,24 @@
 package com.iris.blog.controller.system;
 
 import java.util.List;
-
-import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.iris.blog.common.annotation.OperateLog;
 import com.iris.blog.domain.search.SearchArticleDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.iris.blog.dao.entity.ArticleEntity;
 import com.iris.blog.domain.dto.ArticleDTO;
 import com.iris.blog.service.ArticleService;
 import com.iris.blog.common.R;
 import com.iris.blog.common.PageReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author lstar
@@ -92,6 +91,22 @@ public class ArticleController {
     @SaCheckPermission("system:article:update")
     public R psArticle(@NotNull Long id, @NotNull Integer status) {
         return articleService.psArticle(id,status);
+    }
+
+
+    @PostMapping("/import")
+    @ApiOperation(value = "文章导入", httpMethod = "POST", response = R.class, notes = "文章导入")
+    @SaCheckPermission("system:article:import")
+    public R importArticle(@RequestParam("file") MultipartFile file) {
+
+        return R.ok(articleService.importArticle(file));
+    }
+
+    @PostMapping("/export")
+    @ApiOperation(value = "文章导出", httpMethod = "POST", response = void.class, notes = "文章导出")
+    @SaCheckPermission("system:article:export")
+    public void exportArticle(@RequestBody @NotEmpty List<Long> ids, HttpServletResponse response) {
+        articleService.exportArticle(ids, response);
     }
 
 }

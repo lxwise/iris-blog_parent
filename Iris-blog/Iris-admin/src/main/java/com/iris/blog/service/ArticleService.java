@@ -11,6 +11,9 @@ import com.iris.blog.domain.search.SearchArticleDTO;
 import com.iris.blog.domain.search.app.AppSearchAppArticleDTO;
 import com.iris.blog.domain.vo.SystemHomeContributeStatisticsVO;
 import com.iris.blog.domain.vo.app.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author lstar
@@ -119,5 +122,19 @@ public interface ArticleService extends IService<ArticleEntity> {
      * @param list
      */
     void updateArticleStats(List<ArticleEntity> list);
+
+    /**
+     * 文章导入
+     * @param file
+     * @return
+     */
+    R importArticle(MultipartFile file);
+
+    /**
+     * 导出文章
+     * @param ids
+     * @param response
+     */
+    void exportArticle(List<Long> ids, HttpServletResponse response);
 }
 
